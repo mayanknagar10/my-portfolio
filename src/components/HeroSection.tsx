@@ -111,7 +111,7 @@ const HeroSection = ({ onOpenPanel }: HeroSectionProps) => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => window.open(`${process.env.PUBLIC_URL}/resume.pdf`, "_blank")}
+                onClick={() => window.open("/my-portfolio/resume.pdf", "_blank")}
                 className="text-foreground/60 dark:text-primary-foreground/60 hover:text-accent hover:bg-accent/10 transition-all duration-300"
                 aria-label="Download Resume PDF"
               >
