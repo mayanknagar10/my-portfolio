@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Portfolio Design System - Modern Data Science Aesthetic */
+
+@layer base {
+  :root {
+    /* Core Colors - Warm Modern Palette (Clay & Sage) */
+    --background: 52 50% 91%; /* f4f1de - warm cream */
+    --foreground: 234 20% 30%; /* 3d405b - deep blue-gray */
+    
+    --card: 52 50% 96%;
+    --card-foreground: 234 20% 30%;
+    
+    --popover: 52 50% 94%;
+    --popover-foreground: 234 20% 30%;
+    
+    /* Primary - Deep Blue-Gray */
+    --primary: 234 20% 30%; /* 3d405b */
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 234 20% 40%;
+    --primary-dark: 234 20% 22%;
+    
+    /* Secondary - Sage */
+    --secondary: 151 24% 60%; /* 81b29a */
+    --secondary-foreground: 234 20% 15%;
+    
+    /* Muted Tones - Sand */
+    --muted: 37 79% 85%; /* lighter f2cc8f */
+    --muted-foreground: 234 20% 35%;
+    
+    /* Accent - Terracotta */
+    --accent: 13 67% 63%; /* e07a5f */
+    --accent-foreground: 0 0% 100%;
+    --accent-secondary: 151 24% 60%; /* sage */
+    
+    /* Destructive */
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Borders & Inputs */
+    --border: 234 15% 80%;
+    --input: 234 15% 86%;
+    --ring: 13 67% 63%;
+    
+    /* Custom Design Tokens */
+    --hero-gradient: linear-gradient(135deg, hsl(151, 24%, 60%) 0%, hsl(13, 67%, 63%) 50%, hsl(234, 20%, 30%) 100%);
+    --section-gradient: linear-gradient(180deg, hsl(52, 50%, 91%) 0%, hsl(52, 50%, 96%) 100%);
+    --card-shadow: 0 4px 20px -4px hsl(13, 67%, 63% / 0.08);
+    --card-shadow-hover: 0 8px 30px -4px hsl(13, 67%, 63% / 0.15);
+    --glow-purple: 0 0 40px hsl(13, 67%, 63% / 0.4);
+    --glow-indigo: 0 0 40px hsl(151, 24%, 60% / 0.3);
+    
+    /* Animation Easing */
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 52 50% 97%;
+    --sidebar-foreground: 234 20% 30%;
+    --sidebar-primary: 13 67% 63%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 52 50% 94%;
+    --sidebar-accent-foreground: 234 20% 30%;
+    --sidebar-border: 234 15% 80%;
+    --sidebar-ring: 13 67% 63%;
+  }
+
+  .dark {
+    /* Dark Mode - Warm Modern Palette */
+    --background: 234 25% 12%; /* deep blue-gray near-black */
+    --foreground: 52 50% 92%; /* warm cream text */
+
+    --card: 234 22% 14%;
+    --card-foreground: 52 50% 92%;
+
+    --popover: 234 25% 12%;
+    --popover-foreground: 52 50% 92%;
+
+    /* Primary - Terracotta pop on dark */
+    --primary: 13 70% 65%; /* brighter e07a5f */
+    --primary-foreground: 52 50% 92%;
+
+    /* Secondary - Sage depth */
+    --secondary: 151 24% 38%;
+    --secondary-foreground: 52 50% 92%;
+
+    /* Muted Tones */
+    --muted: 234 20% 16%;
+    --muted-foreground: 52 35% 72%;
+
+    /* Accent - Terracotta */
+    --accent: 13 70% 65%;
+    --accent-foreground: 0 0% 100%;
+    --accent-secondary: 151 30% 60%;
+
+    --destructive: 0 90% 65%;
+    --destructive-foreground: 52 50% 92%;
+
+    --border: 234 22% 20%;
+    --input: 234 22% 18%;
+    --ring: 13 70% 65%;
+    
+    /* Custom Design Tokens for Dark Mode */
+    --hero-gradient: linear-gradient(135deg, hsl(13, 70%, 60%) 0%, hsl(151, 30%, 55%) 50%, hsl(234, 20%, 35%) 100%);
+    --section-gradient: linear-gradient(180deg, hsl(234, 25%, 12%) 0%, hsl(234, 22%, 14%) 100%);
+    --card-shadow: 0 8px 30px -8px hsl(0, 0%, 0% / 0.4);
+    --card-shadow-hover: 0 12px 40px -8px hsl(0, 0%, 0% / 0.6);
+    
+    --sidebar-background: 234 25% 10%;
+    --sidebar-foreground: 52 50% 92%;
+    --sidebar-primary: 13 70% 65%;
+    --sidebar-primary-foreground: 234 25% 12%;
+    --sidebar-accent: 234 22% 18%;
+    --sidebar-accent-foreground: 52 50% 92%;
+    --sidebar-border: 234 22% 20%;
+    --sidebar-ring: 13 70% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  /* Base font configuration */
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  /* Heading styles with Space Grotesk */
+  h1, h2, h3, h4, h5, h6, .heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+}
+
+@layer components {
+  /* Hero Section Styles */
+  .hero-section {
+    @apply relative h-screen flex items-center justify-center overflow-hidden;
+    background: var(--hero-gradient);
+  }
+  
+  .hero-content {
+    @apply relative z-10 text-center text-primary-foreground;
+  }
+  
+  /* Section Styles */
+  .section-container {
+    @apply py-20 px-4 md:px-6 lg:px-8;
+    background: var(--section-gradient);
+  }
+  
+  /* Card Styles */
+  .portfolio-card {
+    @apply bg-card rounded-xl p-6 transition-all duration-300;
+    box-shadow: var(--card-shadow);
+  }
+  
+  .portfolio-card:hover {
+    @apply transform -translate-y-2;
+    box-shadow: var(--card-shadow-hover);
+  }
+  
+  /* Button Variants */
+  .btn-hero {
+    @apply bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-8 py-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 border border-accent;
+  }
+  
+  .btn-secondary-hero {
+    @apply bg-card/20 backdrop-blur-sm border-2 border-accent/50 hover:border-accent text-primary-foreground hover:text-accent hover:bg-accent/10 font-semibold px-8 py-4 rounded-lg transition-all duration-300 shadow-lg;
+  }
+  
+  /* Skill Progress Bars */
+  .skill-bar {
+    @apply h-2 bg-secondary rounded-full overflow-hidden;
+  }
+  
+  .skill-progress {
+    @apply h-full bg-gradient-to-r from-accent to-accent/80 rounded-full transition-all duration-1000 ease-out;
+  }
+  
+  /* Data Science Themed Elements */
+  .data-pattern {
+    @apply absolute inset-0 opacity-5;
+    background-image: radial-gradient(circle at 2px 2px, hsl(var(--accent)) 1px, transparent 0);
+    background-size: 40px 40px;
+  }
+  
+  .neural-network-bg {
+    @apply absolute inset-0 opacity-10;
+    background-image: 
+      linear-gradient(90deg, hsl(var(--accent)/.1) 50%, transparent 50%),
+      linear-gradient(hsl(var(--accent)/.1) 50%, transparent 50%);
+    background-size: 20px 20px;
+  }
+}

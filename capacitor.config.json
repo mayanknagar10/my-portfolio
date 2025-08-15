@@ -1,0 +1,10 @@
+{
+  "appId": "app.lovable.f9715d0ec990415cacac0559cd4b7bfb",
+  "appName": "data-maestro-portfolio",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://f9715d0e-c990-415c-acac-0559cd4b7bfb.lovableproject.com?forceHideBadge=true",
+    "cleartext": true
+  }
+}
