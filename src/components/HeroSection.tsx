@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Download, Github, Linkedin, Mail, BarChart3, Trophy } from "lucide-react";
 import heroBackground from "@/assets/hero-background-minimal.jpg";
-const mayankProfile = "/lovable-uploads/5022a55a-f191-4a72-a0fd-3bc643006683.png";
+const mayankProfile = "/lovable_uploads/profile-pic (5).png";
 
 interface HeroSectionProps {
   onOpenPanel: (panelId: string) => void;
