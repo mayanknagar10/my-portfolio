@@ -103,7 +103,7 @@ const Navigation = ({ onOpenPanel }: NavigationProps) => {
                 </button>
               ))}
               <div className="px-3 py-2">
-                <Button variant="outline" size="sm" onClick={() => window.open('/resume.pdf', '_blank')} className="w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground" aria-label="Download Resume PDF">
+                <Button variant="outline" size="sm" onClick={() => window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank")} className="w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground" aria-label="Download Resume PDF">
                   <Download className="w-4 h-4 mr-2" />
                   Resume
                 </Button>
