@@ -179,7 +179,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 <p className="text-muted-foreground">
                   Get a comprehensive overview of my experience and skills
                 </p>
-                <Button className="btn-hero w-full" onClick={() => window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank") aria-label="Download Resume PDF">
+                <Button className="btn-hero w-full" onClick={() => window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank")} aria-label="Download Resume PDF">
                   <Download className="w-4 h-4 mr-2" />
                   Download CV
                 </Button>
