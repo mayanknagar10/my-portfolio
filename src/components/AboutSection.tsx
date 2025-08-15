@@ -1,5 +1,5 @@
 import { GraduationCap, MapPin, Calendar } from "lucide-react";
-const mayankProfile = "/lovable-uploads/5022a55a-f191-4a72-a0fd-3bc643006683.png";
+const mayankProfile = "/profile-pic.png";
 
 const AboutSection = () => {
   return (
