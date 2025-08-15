@@ -1,4 +1,4 @@
-name: Deploy React App to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -11,7 +11,10 @@ permissions:
   id-token: write
 
 jobs:
-  build-and-deploy:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,13 +24,26 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Check if package.json exists
+        run: |
+          if [ -f package.json ]; then
+            echo "package.json found"
+            cat package.json
+          else
+            echo "No package.json found - creating simple HTML deployment"
+          fi
 
-      - name: Build
-        run: npm run build
+      - name: Install and Build (if package.json exists)
+        run: |
+          if [ -f package.json ]; then
+            npm install
+            npm run build
+            echo "Built files:"
+            ls -la dist/ || ls -la build/ || echo "No dist or build folder found"
+          else
+            echo "Skipping build step"
+          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -35,7 +51,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: ${{ github.workspace }}/dist || ${{ github.workspace }}/build || ${{ github.workspace }}
 
       - name: Deploy to GitHub Pages
         id: deployment
