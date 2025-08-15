@@ -16,35 +16,37 @@ const Navigation = ({ onOpenPanel }: NavigationProps) => {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
-    element?.scrollIntoView({ behavior: 'smooth' });
+    element?.scrollIntoView({ behavior: "smooth" });
     setIsOpen(false);
   };
 
   const navItems = [
-    { id: 'about', label: 'About' },
-    { id: 'experience', label: 'Experience' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'portfolio', label: 'Portfolio' },
-    { id: 'contact', label: 'Contact' }
+    { id: "about", label: "About" },
+    { id: "experience", label: "Experience" },
+    { id: "skills", label: "Skills" },
+    { id: "portfolio", label: "Portfolio" },
+    { id: "contact", label: "Contact" },
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled 
-        ? 'bg-background/95 backdrop-blur-md shadow-lg border-b border-border' 
-        : 'bg-background/90 backdrop-blur-sm shadow-sm'
-    }`}>
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-background/95 backdrop-blur-md shadow-lg border-b border-border"
+          : "bg-background/90 backdrop-blur-sm shadow-sm"
+      }`}
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <button
-            onClick={() => scrollToSection('hero')}
+            onClick={() => scrollToSection("hero")}
             className="text-2xl font-bold text-foreground hover:text-accent transition-colors duration-300"
           >
             Mayank<span className="text-accent">.</span>
@@ -64,10 +66,18 @@ const Navigation = ({ onOpenPanel }: NavigationProps) => {
                 </button>
               ))}
             </div>
-            
+
             <div className="flex items-center space-x-3 pl-4 border-l border-border">
               <ModeToggle />
-              <Button variant="outline" size="sm" onClick={() => window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank") className="border-accent text-accent hover:bg-accent hover:text-accent-foreground" aria-label="Download Resume PDF">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank")
+                }
+                className="border-accent text-accent hover:bg-accent hover:text-accent-foreground"
+                aria-label="Download Resume PDF"
+              >
                 <Download className="w-4 h-4 mr-2" />
                 Resume
               </Button>
@@ -103,7 +113,18 @@ const Navigation = ({ onOpenPanel }: NavigationProps) => {
                 </button>
               ))}
               <div className="px-3 py-2">
-                <Button variant="outline" size="sm" onClick={() => window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank") className="w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground" aria-label="Download Resume PDF">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    window.open(
+                      `${import.meta.env.BASE_URL}resume.pdf`,
+                      "_blank"
+                    )
+                  }
+                  className="w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground"
+                  aria-label="Download Resume PDF"
+                >
                   <Download className="w-4 h-4 mr-2" />
                   Resume
                 </Button>
