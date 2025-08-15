@@ -1,5 +1,5 @@
 import { GraduationCap, MapPin, Calendar } from "lucide-react";
-import mayankProfile from "@/assets/profile-pic-Db28OcdX.png"; // ✅ Import instead of static path
+import mayankProfile from "@/assets/profile-pic.png"; // ✅ Import instead of static path
 
 const AboutSection = () => {
   return (
