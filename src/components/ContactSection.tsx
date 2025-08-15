@@ -96,15 +96,15 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     {
       icon: Phone,
       label: "Phone",
-      value: "+49 179 6333536",
-      href: "tel:+4917963335366",
+      value: "+49 155 10431014",
+      href: "tel:+4915510431014",
       color: "primary"
     },
     {
       icon: MapPin,
       label: "Location",
-      value: "Behringstrasse 12, 22763, Hamburg, DE",
-      href: "https://maps.google.com?q=Behringstrasse+12,+22763,+Hamburg,+DE",
+      value: "Milchgrund 47, 21075, Hamburg, DE",
+      href: "https://maps.google.com?q=Milchgrund+47,+21075,+Hamburg,+DE",
       color: "accent-secondary"
     }
   ];
@@ -179,7 +179,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 <p className="text-muted-foreground">
                   Get a comprehensive overview of my experience and skills
                 </p>
-                <Button className="btn-hero w-full" onClick={() => window.open('/resume.pdf', '_blank')} aria-label="Download Resume PDF">
+                <Button className="btn-hero w-full" onClick={() => window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank") aria-label="Download Resume PDF">
                   <Download className="w-4 h-4 mr-2" />
                   Download CV
                 </Button>
@@ -312,11 +312,11 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 <MapPin className="w-16 h-16 text-accent mx-auto" />
                 <div>
                   <p className="text-lg font-semibold text-foreground">Hamburg, Germany</p>
-                  <p className="text-muted-foreground">Behringstrasse 12, 22763</p>
+                  <p className="text-muted-foreground">Michgrund 47, 21075</p>
                 </div>
                 <Button 
                   variant="outline"
-                  onClick={() => window.open('https://maps.google.com?q=Behringstrasse+12,+22763,+Hamburg,+DE', '_blank')}
+                  onClick={() => window.open('https://maps.google.com?q=Milchgrund+47,+21075,+Hamburg,+DE', '_blank')}
                 >
                   <MapPin className="w-4 h-4 mr-2" />
                   View on Google Maps
