@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
+  base: '/my-portfolio/', // Add this line - replace 'my-portfolio' with your actual repo name
   plugins: [
     react(),
     mode === 'development' &&
