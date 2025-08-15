@@ -1,5 +1,5 @@
 import { GraduationCap, MapPin, Calendar } from "lucide-react";
-const mayankProfile = "/profile-pic.png";
+import mayankProfile from "@/assets/profile-pic.png"; // ✅ Import instead of static path
 
 const AboutSection = () => {
   return (
@@ -20,7 +20,7 @@ const AboutSection = () => {
             <div className="relative">
               <div className="w-80 h-80 rounded-full overflow-hidden shadow-2xl">
                 <img 
-                  src={mayankProfile} 
+                  src={mayankProfile} // ✅ Bundled image
                   alt="Mayank Nagar" 
                   className="w-full h-full object-cover"
                 />
