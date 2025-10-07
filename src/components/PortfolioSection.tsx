@@ -16,7 +16,9 @@ const PortfolioSection = () => {
         "Integrated real-time permit and constraint data",
         "Enhanced logistics efficiency for renewable energy projects"
       ],
-      status: "ongoing"
+      status: "completed",
+      codeUrl: "https://github.com/ShivamSuri05/routing-tool",
+      liveUrl: ""
     },
     {
       title: "Dynamic Urban Transit Optimization",
@@ -47,7 +49,9 @@ const PortfolioSection = () => {
         "Advanced financial visualization techniques",
         "Accurate closing price forecasting system"
       ],
-      status: "completed"
+      status: "completed",
+      codeUrl: "https://github.com/mayanknagar10/stock-market-analysis-and-prediction",
+      liveUrl: ""
     }
   ];
 
@@ -82,10 +86,10 @@ const PortfolioSection = () => {
             Innovative solutions spanning machine learning, data engineering, and research
           </p>
         </div>
-        
+
         <div className="space-y-8">
           {projects.map((project, index) => (
-            <div 
+            <div
               key={index}
               className={`portfolio-card bg-gradient-to-r ${getProjectGradient(index)} animate-slide-up`}
               style={{ animationDelay: `${index * 0.2}s` }}
@@ -102,11 +106,7 @@ const PortfolioSection = () => {
                         {project.type}
                       </span>
                     </div>
-                    
-                    <h3 className="text-2xl md:text-3xl font-bold text-foreground">
-                      {project.title}
-                    </h3>
-                    
+                    <h3 className="text-2xl md:text-3xl font-bold text-foreground">{project.title}</h3>
                     <div className="flex items-center gap-4 text-muted-foreground">
                       <span className="font-medium text-accent">{project.company}</span>
                       <div className="flex items-center gap-1">
@@ -115,11 +115,9 @@ const PortfolioSection = () => {
                       </div>
                     </div>
                   </div>
-                  
                   <p className="text-foreground/80 leading-relaxed text-lg">
                     {project.description}
                   </p>
-                  
                   {/* Key Highlights */}
                   <div className="space-y-3">
                     <h4 className="font-semibold text-foreground">Key Achievements:</h4>
@@ -132,7 +130,6 @@ const PortfolioSection = () => {
                       ))}
                     </ul>
                   </div>
-                  
                   {project.publication && (
                     <div className="p-4 bg-accent/5 border border-accent/20 rounded-lg">
                       <p className="text-sm text-accent font-medium">
@@ -141,7 +138,6 @@ const PortfolioSection = () => {
                     </div>
                   )}
                 </div>
-                
                 {/* Technologies & Actions */}
                 <div className="space-y-6">
                   <div className="space-y-4">
@@ -151,7 +147,7 @@ const PortfolioSection = () => {
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {project.technologies.map((tech, techIndex) => (
-                        <span 
+                        <span
                           key={techIndex}
                           className="px-3 py-1 bg-card border border-border rounded-lg text-sm text-foreground/80"
                         >
@@ -160,16 +156,44 @@ const PortfolioSection = () => {
                       ))}
                     </div>
                   </div>
-                  
                   <div className="space-y-3">
-                    <Button variant="outline" className="w-full justify-start" disabled>
-                      <Github className="w-4 h-4 mr-2" />
-                      View Code
-                    </Button>
-                    <Button variant="outline" className="w-full justify-start" disabled>
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Live Demo
-                    </Button>
+                    {project.codeUrl ? (
+                      <a
+                        href={project.codeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full block"
+                      >
+                        <Button variant="outline" className="w-full justify-start">
+                          <Github className="w-4 h-4 mr-2" />
+                          View Code
+                        </Button>
+                      </a>
+                    ) : (
+                      <Button variant="outline" className="w-full justify-start" disabled>
+                        <Github className="w-4 h-4 mr-2" />
+                        View Code
+                      </Button>
+                    )}
+
+                    {project.liveUrl ? (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full block"
+                      >
+                        <Button variant="outline" className="w-full justify-start">
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          Live Demo
+                        </Button>
+                      </a>
+                    ) : (
+                      <Button variant="outline" className="w-full justify-start" disabled>
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        Live Demo
+                      </Button>
+                    )}
                     <p className="text-xs text-muted-foreground">
                       *Contact for project details and availability
                     </p>
@@ -179,7 +203,7 @@ const PortfolioSection = () => {
             </div>
           ))}
         </div>
-        
+
         {/* More Projects CTA */}
         <div className="text-center mt-16">
           <div className="portfolio-card max-w-md mx-auto text-center">
