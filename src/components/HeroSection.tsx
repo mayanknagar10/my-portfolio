@@ -124,8 +124,8 @@ const HeroSection = ({ onOpenPanel }: HeroSectionProps) => {
           {/* Profile Image */}
           <div className="flex justify-center lg:justify-end animate-fade-in">
             <div className="relative">
-              <div className="w-80 aspect-square rounded-full overflow-hidden border-4 border-accent/30 shadow-2xl animate-float">
-                <img src={mayankProfile} alt="Mayank Nagar" className="w-full h-full object-contain" />
+              <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-accent/30 shadow-2xl animate-float">
+                <img src={mayankProfile} alt="Mayank Nagar" className="w-full h-full object-cover object-top" />
               </div>
               <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-accent/20 to-accent-secondary/20 blur-xl animate-pulse-glow -z-10" />
             </div>
