@@ -1,79 +1,33 @@
-import { useState } from "react";
-import Navigation from "@/components/Navigation";
-import HeroSection from "@/components/HeroSection";
-import SectionPreview from "@/components/SectionPreview";
-import TimelineHighlights from "@/components/TimelineHighlights";
-import AboutSection from "@/components/AboutSection";
-import ExperienceSection from "@/components/ExperienceSection";
-import SkillsSection from "@/components/SkillsSection";
-import PortfolioSection from "@/components/PortfolioSection";
-import ContactSection from "@/components/ContactSection";
-import Footer from "@/components/Footer";
-import SectionModal from "@/components/SectionModal";
+import { useScrollReveal }    from "@/hooks/useScrollReveal";
+import Navigation             from "@/components/Navigation";
+import HeroSection            from "@/components/HeroSection";
+import StatsSection           from "@/components/StatsSection";
+import AboutSection           from "@/components/AboutSection";
+import ExperienceSection      from "@/components/ExperienceSection";
+import SkillsTicker           from "@/components/SkillsTicker";
+import SkillsSection          from "@/components/SkillsSection";
+import PortfolioSection       from "@/components/PortfolioSection";
+import ContactSection         from "@/components/ContactSection";
+import Footer                 from "@/components/Footer";
 
 const Index = () => {
-  const [activePanel, setActivePanel] = useState<string | null>(null);
-
-  const openPanel = (panelId: string) => {
-    setActivePanel(panelId);
-  };
-
-  const closePanel = () => {
-    setActivePanel(null);
-  };
-
-  const renderPanelContent = () => {
-    switch (activePanel) {
-      case 'about':
-        return <AboutSection />;
-      case 'experience':
-        return <ExperienceSection />;
-      case 'skills':
-        return <SkillsSection />;
-      case 'portfolio':
-        return <PortfolioSection />;
-      case 'contact':
-        return <ContactSection />;
-      default:
-        return null;
-    }
-  };
-
-  const getPanelTitle = () => {
-    switch (activePanel) {
-      case 'about':
-        return 'About Me';
-      case 'experience':
-        return 'Experience';
-      case 'skills':
-        return 'Skills';
-      case 'portfolio':
-        return 'Portfolio';
-      case 'contact':
-        return 'Contact';
-      default:
-        return '';
-    }
-  };
+  // Wire up scroll-reveal once for the whole page
+  useScrollReveal();
 
   return (
     <div className="min-h-screen">
-      <Navigation onOpenPanel={openPanel} />
+      <Navigation />
       <main>
-        <HeroSection onOpenPanel={openPanel} />
-        <SectionPreview onOpenPanel={openPanel} />
-        <TimelineHighlights />
+        <HeroSection />
+        <StatsSection />
+        <AboutSection />
+        <ExperienceSection />
+        <SkillsTicker />
+        <SkillsSection />
+        <PortfolioSection />
+        <ContactSection />
       </main>
       <Footer />
-      
-      {/* Section Modal */}
-      <SectionModal
-        isOpen={!!activePanel}
-        onClose={closePanel}
-        title={getPanelTitle()}
-      >
-        {renderPanelContent()}
-      </SectionModal>
     </div>
   );
 };
