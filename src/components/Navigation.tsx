@@ -1,139 +1,134 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Download } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/ModeToggle";
+import { Menu, X } from "lucide-react";
+import ModeToggle from "@/components/ModeToggle";
 
-interface NavigationProps {
-  onOpenPanel: (panelId: string) => void;
-}
+const NAV_LINKS = [
+  { id: "about",      label: "About"      },
+  { id: "experience", label: "Experience" },
+  { id: "skills",     label: "Skills"     },
+  { id: "projects",   label: "Projects"   },
+  { id: "contact",    label: "Contact"    },
+];
 
-const Navigation = ({ onOpenPanel }: NavigationProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+const Navigation = () => {
+  const [scrolled, setScrolled] = useState(false);
+  const [open,     setOpen]     = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    element?.scrollIntoView({ behavior: "smooth" });
-    setIsOpen(false);
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setOpen(false);
   };
 
-  const navItems = [
-    { id: "about", label: "About" },
-    { id: "experience", label: "Experience" },
-    { id: "skills", label: "Skills" },
-    { id: "portfolio", label: "Portfolio" },
-    { id: "contact", label: "Contact" },
-  ];
+  const openResume = () =>
+    window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank");
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-background/95 backdrop-blur-md shadow-lg border-b border-border"
-          : "bg-background/90 backdrop-blur-sm shadow-sm"
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <>
+      {/* ── Main bar ── */}
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 h-[68px] transition-all duration-300"
+        style={{
+          background:   scrolled ? "rgba(10,10,10,0.96)" : "transparent",
+          borderBottom: scrolled ? "1px solid rgba(255,255,255,0.07)" : "1px solid transparent",
+          backdropFilter: scrolled ? "blur(16px)" : "none",
+        }}
+      >
+        <div className="max-w-[1240px] mx-auto px-8 h-full flex items-center justify-between">
           {/* Logo */}
           <button
-            onClick={() => scrollToSection("hero")}
-            className="text-2xl font-bold text-foreground hover:text-accent transition-colors duration-300"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="font-heading text-xl font-bold text-white"
+            style={{ letterSpacing: "-0.03em" }}
           >
-            Mayank<span className="text-accent">.</span>
+            Mayank<span style={{ color: "var(--c-accent)" }}>.</span>
           </button>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
-            <div className="flex items-center space-x-6">
-              {navItems.map((item) => (
+          {/* Desktop links */}
+          <ul className="hidden md:flex items-center gap-7 list-none">
+            {NAV_LINKS.map((link) => (
+              <li key={link.id}>
                 <button
-                  key={item.id}
-                  onClick={() => onOpenPanel(item.id)}
-                  className="text-foreground/80 hover:text-accent transition-colors duration-300 font-medium relative group"
+                  onClick={() => scrollTo(link.id)}
+                  className="text-sm font-medium transition-colors duration-200"
+                  style={{ color: "rgba(255,255,255,0.6)" }}
+                  onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#fff")}
+                  onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "rgba(255,255,255,0.6)")}
                 >
-                  {item.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full" />
+                  {link.label}
                 </button>
-              ))}
-            </div>
+              </li>
+            ))}
 
-            <div className="flex items-center space-x-3 pl-4 border-l border-border">
-              <ModeToggle />
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank")
-                }
-                className="border-accent text-accent hover:bg-accent hover:text-accent-foreground"
-                aria-label="Download Resume PDF"
+            {/* Divider */}
+            <li
+              className="h-4 w-px"
+              style={{ background: "rgba(255,255,255,0.15)" }}
+              aria-hidden="true"
+            />
+
+            {/* Dark / light toggle */}
+            <li><ModeToggle /></li>
+
+            {/* Resume */}
+            <li>
+              <button
+                onClick={openResume}
+                className="text-xs font-semibold text-white uppercase tracking-widest px-4 py-2 rounded transition-colors duration-200"
+                style={{ background: "var(--c-accent)", letterSpacing: "0.06em" }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "#1d4ed8")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--c-accent)")}
               >
-                <Download className="w-4 h-4 mr-2" />
-                Resume
-              </Button>
-            </div>
-          </div>
+                Resume ↗
+              </button>
+            </li>
+          </ul>
 
-          {/* Mobile Controls */}
-          <div className="md:hidden flex items-center space-x-3">
+          {/* Mobile: toggle + hamburger */}
+          <div className="md:hidden flex items-center gap-3">
             <ModeToggle />
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-foreground hover:text-accent transition-colors duration-300"
+              className="text-white p-1"
+              onClick={() => setOpen((v) => !v)}
+              aria-label="Toggle menu"
             >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
+      </nav>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-background/95 backdrop-blur-md rounded-lg mt-2 shadow-lg border border-border">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    onOpenPanel(item.id);
-                    setIsOpen(false);
-                  }}
-                  className="block w-full text-left px-3 py-2 text-foreground/80 hover:text-accent hover:bg-accent/10 rounded-md transition-all duration-300"
-                >
-                  {item.label}
-                </button>
-              ))}
-              <div className="px-3 py-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    window.open(
-                      `${import.meta.env.BASE_URL}resume.pdf`,
-                      "_blank"
-                    )
-                  }
-                  className="w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground"
-                  aria-label="Download Resume PDF"
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  Resume
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </nav>
+      {/* ── Mobile overlay ── */}
+      {open && (
+        <div
+          className="fixed inset-0 z-40 flex flex-col gap-1 px-8 pt-24 pb-12"
+          style={{ background: "#0A0A0A" }}
+        >
+          {NAV_LINKS.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => scrollTo(link.id)}
+              className="text-left py-4 font-heading text-3xl font-semibold text-white/80 border-b transition-colors hover:text-white"
+              style={{ borderColor: "rgba(255,255,255,0.08)", letterSpacing: "-0.02em" }}
+            >
+              {link.label}
+            </button>
+          ))}
+          <button
+            onClick={openResume}
+            className="mt-6 text-sm font-semibold text-white uppercase tracking-widest px-6 py-3 rounded self-start"
+            style={{ background: "var(--c-accent)" }}
+          >
+            Resume ↗
+          </button>
+        </div>
+      )}
+    </>
   );
 };
 
