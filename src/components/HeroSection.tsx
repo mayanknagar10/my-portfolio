@@ -1,143 +1,204 @@
-import { Button } from "@/components/ui/button";
-import { ChevronDown, Download, Github, Linkedin, Mail, BarChart3, Trophy } from "lucide-react";
-import heroBackground from "@/assets/hero-background-minimal.jpg";
-import mayankProfile from "@/assets/profile-pic.png"; // ✅ Import image directly
+import { Github, Linkedin, Mail, BarChart3, Trophy, ArrowRight } from "lucide-react";
 
-interface HeroSectionProps {
-  onOpenPanel: (panelId: string) => void;
-}
+const HeroSection = () => {
+  const scrollTo = (id: string) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
-const HeroSection = ({ onOpenPanel }: HeroSectionProps) => {
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    element?.scrollIntoView({
-      behavior: "smooth",
-    });
-  };
+  const openResume = () =>
+    window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank");
 
   return (
-    <section id="hero" className="hero-section relative">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url(${heroBackground})`,
-        }}
-      />
-      <div className="absolute inset-0 bg-background/40 dark:bg-background/70" />
+    <section
+      id="hero"
+      className="relative min-h-svh flex items-center px-8 overflow-hidden hero-grid hero-glow"
+      style={{ background: "#0A0A0A", paddingTop: "68px" }}
+    >
+      <div className="max-w-[1240px] mx-auto w-full relative z-10">
 
-      {/* Data Pattern Overlay */}
-      <div className="data-pattern" />
+        {/* Eyebrow */}
+        <div
+          className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest mb-8"
+          style={{
+            color: "#2563EB",
+            letterSpacing: "0.14em",
+            opacity: 0,
+            animation: "fade-up 0.7s 0.15s ease forwards",
+          }}
+        >
+          <span
+            className="inline-block w-8 h-px"
+            style={{ background: "#2563EB" }}
+          />
+          Data Scientist · Hamburg, Germany
+        </div>
 
-      {/* Main Content */}
-      <div className="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
-          {/* Text Content */}
-          <div className="space-y-8 animate-fade-in">
-            <div className="space-y-4">
-              <h1 className="text-5xl md:text-7xl font-bold leading-tight text-foreground dark:text-primary-foreground">
-                Mayank
-                <span className="block text-accent">Nagar</span>
-              </h1>
-              <p className="text-xl md:text-2xl text-foreground/80 dark:text-primary-foreground/80 font-light">
-                Data Scientist Crafting Innovative Data-Driven Solutions
-              </p>
-            </div>
+        {/* Title */}
+        <h1
+          className="font-heading font-bold text-white leading-none mb-10"
+          style={{
+            fontSize: "clamp(60px, 11vw, 136px)",
+            letterSpacing: "-0.035em",
+            lineHeight: 0.90,
+            opacity: 0,
+            animation: "fade-up 0.7s 0.3s ease forwards",
+          }}
+        >
+          Mayank
+          <br />
+          <span style={{ fontWeight: 300, color: "rgba(255,255,255,0.35)" }}>
+            Nagar
+          </span>
+          <br />
+          <span style={{ color: "#2563EB" }}>Data&nbsp;Scientist</span>
+        </h1>
 
-            <p className="text-lg text-foreground/70 dark:text-primary-foreground/70 max-w-xl leading-relaxed">
-              Data Science M.Sc. student at Hamburg University of Technology (TUHH) with expertise in data
-              engineering, machine learning, and ETL pipelines, passionate about innovative data-driven
-              solutions.
-            </p>
+        {/* Subtitle */}
+        <p
+          className="text-lg font-body max-w-[500px] mb-12 leading-relaxed"
+          style={{
+            color: "rgba(255,255,255,0.45)",
+            opacity: 0,
+            animation: "fade-up 0.7s 0.45s ease forwards",
+          }}
+        >
+          M.Sc. student at TUHH, building intelligent systems from raw data —
+          pipelines, models, and insights that move the needle.
+        </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button className="btn-hero" onClick={() => onOpenPanel("portfolio")}>
-                View Portfolio
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => onOpenPanel("contact")}
-                className="bg-accent/20 text-foreground dark:text-primary-foreground border-accent hover:bg-accent hover:text-accent-foreground transition-all duration-300 px-8 py-4 rounded-lg font-semibold"
-              >
-                Get In Touch
-              </Button>
-            </div>
+        {/* CTAs */}
+        <div
+          className="flex flex-wrap items-center gap-4 mb-12"
+          style={{ opacity: 0, animation: "fade-up 0.7s 0.6s ease forwards" }}
+        >
+          <button
+            onClick={() => scrollTo("projects")}
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded font-semibold text-sm text-white transition-all duration-200"
+            style={{ background: "#2563EB" }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#1d4ed8"; (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "#2563EB"; (e.currentTarget as HTMLElement).style.transform = "none"; }}
+          >
+            View Projects
+            <ArrowRight className="w-4 h-4" />
+          </button>
 
-            {/* Social Links */}
-            <div className="flex items-center gap-6 pt-4">
-              <a
-                href="https://www.linkedin.com/in/mayank-nagar10/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground/60 dark:text-primary-foreground/60 hover:text-accent transition-colors duration-300"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-6 h-6" />
-              </a>
-              <a
-                href="https://github.com/mayanknagar10"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground/60 dark:text-primary-foreground/60 hover:text-accent transition-colors duration-300"
-                aria-label="GitHub"
-              >
-                <Github className="w-6 h-6" />
-              </a>
-              <a
-                href="https://public.tableau.com/app/profile/mayank.nagar3143/vizzes"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground/60 dark:text-primary-foreground/60 hover:text-accent transition-colors duration-300"
-                aria-label="Tableau"
-              >
-                <BarChart3 className="w-6 h-6" />
-              </a>
-              <a
-                href="https://www.kaggle.com/nmayank10"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground/60 dark:text-primary-foreground/60 hover:text-accent transition-colors duration-300"
-                aria-label="Kaggle"
-              >
-                <Trophy className="w-6 h-6" />
-              </a>
-              <a
-                href="mailto:nmayank.790@gmail.com"
-                className="text-foreground/60 dark:text-primary-foreground/60 hover:text-accent transition-colors duration-300"
-              >
-                <Mail className="w-6 h-6" />
-              </a>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank")}
-                className="text-foreground/60 dark:text-primary-foreground/60 hover:text-accent hover:bg-accent/10 transition-all duration-300"
-                aria-label="Download Resume PDF"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Resume
-              </Button>
-            </div>
-          </div>
+          <button
+            onClick={() => scrollTo("contact")}
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded font-medium text-sm transition-all duration-200"
+            style={{
+              border: "1px solid rgba(255,255,255,0.18)",
+              color: "rgba(255,255,255,0.6)",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.45)";
+              (e.currentTarget as HTMLElement).style.color = "#fff";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.18)";
+              (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.6)";
+            }}
+          >
+            Get In Touch
+          </button>
 
-          {/* Profile Image */}
-          <div className="flex justify-center lg:justify-end animate-fade-in">
-            <div className="relative">
-              <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-accent/30 shadow-2xl animate-float">
-                <img src={mayankProfile} alt="Mayank Nagar" className="w-full h-full object-cover object-top" />
-              </div>
-              <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-accent/20 to-accent-secondary/20 blur-xl animate-pulse-glow -z-10" />
-            </div>
-          </div>
+          <button
+            onClick={openResume}
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded font-medium text-sm transition-all duration-200"
+            style={{
+              border: "1px solid rgba(255,255,255,0.18)",
+              color: "rgba(255,255,255,0.6)",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.45)";
+              (e.currentTarget as HTMLElement).style.color = "#fff";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.18)";
+              (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.6)";
+            }}
+          >
+            ↓ Resume
+          </button>
+        </div>
+
+        {/* Social icons */}
+        <div
+          className="flex items-center gap-4"
+          style={{ opacity: 0, animation: "fade-up 0.7s 0.75s ease forwards" }}
+        >
+          {[
+            {
+              href: "https://www.linkedin.com/in/mayank-nagar10/",
+              label: "LinkedIn",
+              icon: <Linkedin className="w-4 h-4" />,
+            },
+            {
+              href: "https://github.com/mayanknagar10",
+              label: "GitHub",
+              icon: <Github className="w-4 h-4" />,
+            },
+            {
+              href: "https://public.tableau.com/app/profile/mayank.nagar3143/vizzes",
+              label: "Tableau",
+              icon: <BarChart3 className="w-4 h-4" />,
+            },
+            {
+              href: "https://www.kaggle.com/nmayank10",
+              label: "Kaggle",
+              icon: <Trophy className="w-4 h-4" />,
+            },
+            {
+              href: "mailto:nmayank.790@gmail.com",
+              label: "Email",
+              icon: <Mail className="w-4 h-4" />,
+            },
+          ].map(({ href, label, icon }) => (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith("mailto") ? undefined : "_blank"}
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="w-9 h-9 flex items-center justify-center rounded-full transition-all duration-200"
+              style={{
+                border: "1px solid rgba(255,255,255,0.13)",
+                color: "rgba(255,255,255,0.4)",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = "#2563EB";
+                (e.currentTarget as HTMLElement).style.color = "#2563EB";
+                (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.13)";
+                (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.4)";
+                (e.currentTarget as HTMLElement).style.transform = "none";
+              }}
+            >
+              {icon}
+            </a>
+          ))}
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <ChevronDown
-          className="w-8 h-8 text-foreground/60 dark:text-primary-foreground/60 cursor-pointer hover:text-accent transition-colors duration-300"
-          onClick={() => onOpenPanel("about")}
+      {/* Scroll indicator */}
+      <div
+        className="absolute bottom-9 right-10 hidden md:flex flex-col items-center gap-3 font-mono text-[10px] tracking-widest"
+        style={{
+          writingMode: "vertical-lr",
+          color: "rgba(255,255,255,0.2)",
+          letterSpacing: "0.18em",
+          opacity: 0,
+          animation: "fade-up 0.7s 1s ease forwards",
+        }}
+      >
+        SCROLL
+        <span
+          className="block"
+          style={{
+            width: 1,
+            height: 48,
+            background: "linear-gradient(to bottom, rgba(255,255,255,0.2), transparent)",
+          }}
         />
       </div>
     </section>
