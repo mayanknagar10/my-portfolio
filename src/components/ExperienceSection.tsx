@@ -1,137 +1,161 @@
-import { Briefcase, Calendar, MapPin } from "lucide-react";
+const EXPERIENCES = [
+  {
+    period:  ["04/2025", "Present"],
+    badge:   "Current",
+    current: true,
+    company: "Harbour Energy",
+    role:    "Data Science Intern · Barnstorf, Germany",
+    bullets: [
+      "Developing high-resolution microCT images using CycleGAN, FFT, and interpolation for 3D rock micro-models",
+      "Improving fluid flow simulation accuracy through advanced image processing algorithms",
+      "Exploring GAN architectures including 3D EDSR for enhanced image reconstruction",
+      "Enhancing ML platform development with cutting-edge deep learning techniques",
+    ],
+  },
+  {
+    period:  ["08/2022", "08/2024"],
+    badge:   "2 Years",
+    current: false,
+    company: "Cognizant",
+    role:    "Programmer Analyst — Data Engineering (AIA) · Pune, India",
+    bullets: [
+      "Built robust ETL pipelines using Azure Data Factory, Azure Storage, and SQL Server — reducing latency by 30%",
+      "Improved strategic decision-making efficiency by 20% through IBM Cognos Analytics implementation",
+      "Optimised codebase achieving 70–80% data accuracy across multiple enterprise projects",
+      "Authored comprehensive technical documentation for data engineering processes",
+    ],
+  },
+  {
+    period:  ["01/2022", "05/2022"],
+    badge:   "Internship",
+    current: false,
+    company: "Cognizant",
+    role:    "Programmer Analyst Trainee (AIA) · Pune, India",
+    bullets: [
+      "Created PySpark and SQL visualisations, improving stakeholder engagement by 25%",
+      "Enhanced decision-making speed by 30% through streamlined data presentation",
+      "Reduced processing errors by 15% via advanced data preprocessing techniques",
+    ],
+  },
+];
 
-const ExperienceSection = () => {
-  const experiences = [
-    {
-      title: "Data Science Intern",
-      company: "Harbour Energy",
-      location: "Barnstorf, Germany",
-      period: "04/2025 – Present",
-      type: "current",
-      description: [
-        "Developing high-resolution microCT images using CycleGAN, FFT, and interpolation techniques for 3D rock micro-models",
-        "Improving fluid flow simulation accuracy through advanced image processing algorithms",
-        "Enhancing machine learning platform development with cutting-edge techniques",
-        "Exploring GAN algorithms including 3D EDSR for enhanced image reconstruction"
-      ]
-    },
-    {
-      title: "Programmer Analyst (Data Engineering – AIA)",
-      company: "Cognizant Technology Solutions",
-      location: "Pune, India", 
-      period: "08/2022 – 08/2024",
-      type: "past",
-      description: [
-        "Built robust ETL pipelines using Azure Data Factory, Azure Storage, and SQL Server, reducing latency by 30%",
-        "Improved decision-making efficiency by 20% through implementation of IBM Cognos Analytics",
-        "Optimized codebase achieving 70–80% data accuracy across multiple projects",
-        "Authored comprehensive technical documentation for data engineering processes"
-      ]
-    },
-    {
-      title: "Programmer Analyst Trainee (AIA) – Intern",
-      company: "Cognizant Technology Solutions",
-      location: "Pune, India",
-      period: "01/2022 – 05/2022",
-      type: "internship",
-      description: [
-        "Created PySpark and SQL visualizations, improving stakeholder engagement by 25%",
-        "Enhanced decision-making speed by 30% through streamlined data presentation",
-        "Reduced processing errors by 15% through advanced data preprocessing techniques",
-        "Collaborated with cross-functional teams to deliver data-driven insights"
-      ]
-    }
-  ];
+const ExperienceSection = () => (
+  <section
+    id="experience"
+    className="px-8 py-24"
+    style={{ background: "#141416" }}
+  >
+    <div className="max-w-[1240px] mx-auto">
+      {/* Header */}
+      <p
+        className="reveal font-mono text-[11px] uppercase tracking-[0.16em] mb-4"
+        style={{ color: "#60a5fa" }}
+      >
+        Work History
+      </p>
+      <h2
+        className="reveal font-heading font-bold leading-none mb-5"
+        style={{
+          fontSize: "clamp(36px, 5vw, 60px)",
+          letterSpacing: "-0.03em",
+          color: "#FFFFFF",
+          transitionDelay: "0.05s",
+        }}
+      >
+        Professional Experience
+      </h2>
+      <p
+        className="reveal text-base mb-16 max-w-[520px] leading-relaxed"
+        style={{ color: "rgba(255,255,255,0.4)", transitionDelay: "0.1s" }}
+      >
+        Building data infrastructure and intelligent solutions across energy, consulting, and academia.
+      </p>
 
-  const getCardStyle = (type: string) => {
-    switch (type) {
-      case 'current':
-        return 'border-l-4 border-l-accent bg-gradient-to-r from-accent/5 to-transparent';
-      case 'past':
-        return 'border-l-4 border-l-primary bg-gradient-to-r from-primary/5 to-transparent';
-      case 'internship':
-        return 'border-l-4 border-l-accent-secondary bg-gradient-to-r from-accent-secondary/5 to-transparent';
-      default:
-        return '';
-    }
-  };
-
-  const getIconColor = (type: string) => {
-    switch (type) {
-      case 'current':
-        return 'text-accent bg-accent/10';
-      case 'past':
-        return 'text-primary bg-primary/10';
-      case 'internship':
-        return 'text-accent-secondary bg-accent-secondary/10';
-      default:
-        return 'text-accent bg-accent/10';
-    }
-  };
-
-  return (
-    <section id="experience" className="section-container bg-muted/30">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Professional <span className="text-accent">Experience</span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Building data solutions that drive innovation and business impact
-          </p>
-        </div>
-        
-        <div className="space-y-8">
-          {experiences.map((exp, index) => (
-            <div 
-              key={index}
-              className={`portfolio-card ${getCardStyle(exp.type)} animate-slide-up`}
-              style={{ animationDelay: `${index * 0.2}s` }}
-            >
-              <div className="flex items-start gap-6">
-                <div className={`p-4 rounded-xl ${getIconColor(exp.type)}`}>
-                  <Briefcase className="w-8 h-8" />
-                </div>
-                
-                <div className="flex-1">
-                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4">
-                    <div>
-                      <h3 className="text-2xl font-bold text-foreground mb-1">
-                        {exp.title}
-                      </h3>
-                      <p className="text-xl font-semibold text-accent mb-2">
-                        {exp.company}
-                      </p>
-                    </div>
-                    
-                    <div className="flex flex-col lg:items-end gap-2">
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        <Calendar className="w-4 h-4" />
-                        <span className="font-medium">{exp.period}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        <MapPin className="w-4 h-4" />
-                        <span>{exp.location}</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <ul className="space-y-3">
-                    {exp.description.map((item, itemIndex) => (
-                      <li key={itemIndex} className="flex items-start gap-3">
-                        <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
-                        <p className="text-foreground/80 leading-relaxed">{item}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+      {/* Timeline list */}
+      <div>
+        {EXPERIENCES.map((exp, i) => (
+          <div
+            key={i}
+            className="reveal grid grid-cols-1 md:grid-cols-[180px_1fr] py-12"
+            style={{
+              gap: "3.5rem",
+              borderBottom: i < EXPERIENCES.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
+              transitionDelay: `${0.15 + i * 0.1}s`,
+            }}
+          >
+            {/* Left: period */}
+            <div className="pt-1">
+              <p
+                className="font-mono text-xs leading-relaxed"
+                style={{ color: "rgba(255,255,255,0.28)", letterSpacing: "0.05em" }}
+              >
+                {exp.period[0]}
+                <br />
+                {exp.period[1]}
+              </p>
+              <span
+                className="inline-block mt-3 w-2 h-2 rounded-full"
+                style={{
+                  background: "#2563EB",
+                  boxShadow: "0 0 0 4px rgba(37,99,235,0.18)",
+                }}
+              />
             </div>
-          ))}
-        </div>
+
+            {/* Right: content */}
+            <div>
+              <span
+                className="inline-block mb-3 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] rounded-sm"
+                style={
+                  exp.current
+                    ? {
+                        background: "rgba(37,99,235,0.14)",
+                        color: "#93c5fd",
+                        border: "1px solid rgba(37,99,235,0.28)",
+                      }
+                    : {
+                        background: "rgba(255,255,255,0.05)",
+                        color: "rgba(255,255,255,0.3)",
+                        border: "1px solid rgba(255,255,255,0.08)",
+                      }
+                }
+              >
+                {exp.badge}
+              </span>
+
+              <h3
+                className="font-heading font-bold mb-1"
+                style={{ fontSize: 24, letterSpacing: "-0.025em", color: "#FFFFFF" }}
+              >
+                {exp.company}
+              </h3>
+              <p className="text-sm mb-5" style={{ color: "rgba(255,255,255,0.4)" }}>
+                {exp.role}
+              </p>
+
+              <ul className="flex flex-col gap-2.5">
+                {exp.bullets.map((b, j) => (
+                  <li
+                    key={j}
+                    className="text-sm leading-relaxed pl-5 relative"
+                    style={{ color: "rgba(255,255,255,0.55)" }}
+                  >
+                    <span
+                      className="absolute left-0 font-mono text-xs"
+                      style={{ color: "#2563EB", top: 1 }}
+                    >
+                      —
+                    </span>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default ExperienceSection;
