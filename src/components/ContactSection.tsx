@@ -1,328 +1,277 @@
-import { Mail, Phone, MapPin, Send, Download, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { toast } from "@/components/ui/use-toast";
+import { Mail, Phone, MapPin, Send, Loader2 } from "lucide-react";
 
-// Replace with your Web3Forms Access Key from https://web3forms.com/
-const WEB3FORMS_ACCESS_KEY = "8e90e7bb-2cd5-43f7-b09d-10dd2cd2d792";
+const WEB3FORMS_KEY = "8e90e7bb-2cd5-43f7-b09d-10dd2cd2d792";
 
-const ContactSection = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+const CONTACT_ITEMS = [
+  {
+    icon:  <Mail  className="w-5 h-5" />,
+    label: "Email",
+    value: "nmayank.790@gmail.com",
+    href:  "mailto:nmayank.790@gmail.com",
+  },
+  {
+    icon:  <Phone className="w-5 h-5" />,
+    label: "Phone",
+    value: "+49 155 10431014",
+    href:  "tel:+4915510431014",
+  },
+  {
+    icon:  <MapPin className="w-5 h-5" />,
+    label: "Location",
+    value: "Hamburg, Germany",
+    href:  undefined,
+  },
+];
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+const AVAIL = [
+  "Open to internship opportunities",
+  "Available for research collaborations",
+  "Open to data science consulting",
+];
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  setStatusMessage(null);
-
-  const formEl = e.currentTarget;
-  const fd = new FormData(formEl);
-
-  // Honeypot check
-  if (fd.get("botcheck")) {
-    setStatusMessage("Spam detected. Submission blocked.");
-    return;
-  }
-
-  setIsSubmitting(true);
-  try {
-    const res = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        access_key: WEB3FORMS_ACCESS_KEY,
-        name: formData.name,
-        email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-        replyto: formData.email,
-        from_name: formData.name,
-      }),
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
-      toast({
-        title: "Message sent!",
-        description: "Thanks for reaching out. I’ll reply soon.",
-      });
-      setStatusMessage("Your message was sent successfully.");
-      setFormData({ name: "", email: "", subject: "", message: "" });
-      formEl.reset();
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Failed to send",
-        description: data.message || "Please try again later.",
-      });
-      setStatusMessage("Failed to send. Please try again later.");
-    }
-  } catch (error) {
-    toast({
-      variant: "destructive",
-      title: "Network error",
-      description: "Unable to send right now. Please try again.",
-    });
-    setStatusMessage("Network error. Please try again.");
-  } finally {
-    setIsSubmitting(false);
-  }
+/* ── Shared input style for dark section ─────────────────────────── */
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  padding: "13px 15px",
+  background: "rgba(255,255,255,0.04)",
+  border: "1px solid rgba(255,255,255,0.09)",
+  borderRadius: 3,
+  fontFamily: "Inter, sans-serif",
+  fontSize: 14,
+  color: "#fff",
+  outline: "none",
 };
 
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: "nmayank.790@gmail.com",
-      href: "mailto:nmayank.790@gmail.com",
-      color: "accent"
-    },
-    {
-      icon: Phone,
-      label: "Phone",
-      value: "+49 155 10431014",
-      href: "tel:+4915510431014",
-      color: "primary"
-    },
-    {
-      icon: MapPin,
-      label: "Location",
-      value: "Milchgrund 47, 21075, Hamburg, DE",
-      href: "https://maps.google.com?q=Milchgrund+47,+21075,+Hamburg,+DE",
-      color: "accent-secondary"
-    }
-  ];
+const ContactSection = () => {
+  const [form, setForm]       = useState({ name: "", email: "", subject: "", message: "" });
+  const [sending, setSending] = useState(false);
+  const [status,  setStatus]  = useState<{ msg: string; ok: boolean } | null>(null);
 
-  const getIconColors = (color: string) => {
-    switch (color) {
-      case 'accent':
-        return 'bg-accent/10 text-accent';
-      case 'primary':
-        return 'bg-primary/10 text-primary';
-      case 'accent-secondary':
-        return 'bg-accent-secondary/10 text-accent-secondary';
-      default:
-        return 'bg-accent/10 text-accent';
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus(null);
+    setSending(true);
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ access_key: WEB3FORMS_KEY, ...form, replyto: form.email }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStatus({ msg: "✓ Message sent. I'll be in touch soon.", ok: true });
+        setForm({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setStatus({ msg: "✗ Failed to send — please email me directly.", ok: false });
+      }
+    } catch {
+      setStatus({ msg: "✗ Network error — email nmayank.790@gmail.com directly.", ok: false });
+    } finally {
+      setSending(false);
     }
   };
 
   return (
-    <section id="contact" className="section-container">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Get In <span className="text-accent">Touch</span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Let's discuss how we can work together on innovative data science projects
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Contact Information */}
-          <div className="space-y-8 animate-fade-in">
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-foreground mb-6">
-                Contact Information
-              </h3>
-              
-              {contactInfo.map((info, index) => {
-                const IconComponent = info.icon;
-                return (
+    <section id="contact" className="px-8 py-24" style={{ background: "#141416" }}>
+      <div className="max-w-[1240px] mx-auto">
+        {/* Header */}
+        <p
+          className="reveal font-mono text-[11px] uppercase tracking-[0.16em] mb-4"
+          style={{ color: "#60a5fa" }}
+        >
+          Get In Touch
+        </p>
+        <h2
+          className="reveal font-heading font-bold leading-none mb-5"
+          style={{
+            fontSize: "clamp(36px, 5vw, 60px)",
+            letterSpacing: "-0.03em",
+            color: "#FFFFFF",
+            transitionDelay: "0.05s",
+          }}
+        >
+          Let's Work Together
+        </h2>
+        <p
+          className="reveal text-base mb-16 max-w-[520px] leading-relaxed"
+          style={{ color: "rgba(255,255,255,0.4)", transitionDelay: "0.1s" }}
+        >
+          Open to internships, research collaborations, and data science consulting opportunities.
+        </p>
+
+        <div
+          className="grid gap-12 lg:gap-20 grid-cols-1 lg:grid-cols-[1fr_1.1fr]"
+        >
+          {/* ── Left: contact info ─────────────────────────────── */}
+          <div className="reveal" style={{ transitionDelay: "0.15s" }}>
+            <div className="flex flex-col gap-7">
+              {CONTACT_ITEMS.map((item) =>
+                item.href ? (
                   <a
-                    key={index}
-                    href={info.href}
-                    target={info.label === "Location" ? "_blank" : undefined}
-                    rel={info.label === "Location" ? "noopener noreferrer" : undefined}
-                    className="block portfolio-card hover:scale-105 transition-all duration-300"
+                    key={item.label}
+                    href={item.href}
+                    className="flex items-start gap-4 group"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`p-4 rounded-xl ${getIconColors(info.color)}`}>
-                        <IconComponent className="w-6 h-6" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground font-medium">
-                          {info.label}
-                        </p>
-                        <p className="text-foreground font-semibold">
-                          {info.value}
-                        </p>
-                      </div>
+                    <div
+                      className="w-11 h-11 flex items-center justify-center flex-shrink-0 rounded transition-colors duration-200"
+                      style={{
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        color: "rgba(255,255,255,0.35)",
+                      }}
+                    >
+                      {item.icon}
+                    </div>
+                    <div>
+                      <p
+                        className="font-mono text-[10px] uppercase tracking-[0.14em] mb-1"
+                        style={{ color: "rgba(255,255,255,0.25)" }}
+                      >
+                        {item.label}
+                      </p>
+                      <p
+                        className="text-sm transition-colors duration-200 group-hover:text-white"
+                        style={{ color: "rgba(255,255,255,0.65)" }}
+                      >
+                        {item.value}
+                      </p>
                     </div>
                   </a>
-                );
-              })}
+                ) : (
+                  <div key={item.label} className="flex items-start gap-4">
+                    <div
+                      className="w-11 h-11 flex items-center justify-center flex-shrink-0 rounded"
+                      style={{ border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.35)" }}
+                    >
+                      {item.icon}
+                    </div>
+                    <div>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.14em] mb-1" style={{ color: "rgba(255,255,255,0.25)" }}>
+                        {item.label}
+                      </p>
+                      <p className="text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
+                        {item.value}
+                      </p>
+                    </div>
+                  </div>
+                )
+              )}
             </div>
-            
-            {/* Resume Download */}
-            <div className="portfolio-card bg-gradient-to-r from-accent/5 to-accent/10 border border-accent/20">
-              <div className="text-center space-y-4">
-                <h4 className="text-xl font-bold text-foreground">
-                  Download Resume
-                </h4>
-                <p className="text-muted-foreground">
-                  Get a comprehensive overview of my experience and skills
-                </p>
-                <Button className="btn-hero w-full" onClick={() => window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank")} aria-label="Download Resume PDF">
-                  <Download className="w-4 h-4 mr-2" />
-                  Download CV
-                </Button>
-              </div>
-            </div>
-            
+
             {/* Availability */}
-            <div className="portfolio-card">
-              <h4 className="text-lg font-semibold text-foreground mb-3">
+            <div
+              className="mt-11 pt-8 flex flex-col gap-3"
+              style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
+            >
+              <p
+                className="font-mono text-[10px] uppercase tracking-[0.14em] mb-1"
+                style={{ color: "rgba(255,255,255,0.2)" }}
+              >
                 Current Availability
-              </h4>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-accent rounded-full animate-pulse" />
-                  <span className="text-foreground">Open for internship opportunities</span>
+              </p>
+              {AVAIL.map((a) => (
+                <div key={a} className="flex items-center gap-2.5 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
+                  <span
+                    className="w-2 h-2 rounded-full flex-shrink-0 animate-[green-pulse_2.2s_ease-in-out_infinite]"
+                    style={{ background: "#22c55e" }}
+                  />
+                  {a}
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-accent rounded-full animate-pulse" />
-                  <span className="text-foreground">Available for research collaborations</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-accent rounded-full animate-pulse" />
-                  <span className="text-foreground">Open to data science consulting</span>
-                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Right: form ────────────────────────────────────── */}
+          <div className="reveal" style={{ transitionDelay: "0.22s" }}>
+            <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
+              {/* Honeypot */}
+              <input type="text" name="botcheck" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+
+              <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
+                {[
+                  { id: "name",  label: "Name *",  type: "text",  placeholder: "Your full name" },
+                  { id: "email", label: "Email *", type: "email", placeholder: "your@email.com" },
+                ].map((f) => (
+                  <div key={f.id} className="flex flex-col gap-1.5">
+                    <label
+                      htmlFor={f.id}
+                      className="font-mono text-[10px] uppercase tracking-[0.14em]"
+                      style={{ color: "rgba(255,255,255,0.28)" }}
+                    >
+                      {f.label}
+                    </label>
+                    <input
+                      id={f.id}
+                      name={f.id}
+                      type={f.type}
+                      value={(form as Record<string, string>)[f.id]}
+                      onChange={onChange}
+                      placeholder={f.placeholder}
+                      required
+                      style={inputStyle}
+                      onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = "#2563EB"; (e.target as HTMLInputElement).style.background = "rgba(37,99,235,0.05)"; }}
+                      onBlur={(e)  => { (e.target as HTMLInputElement).style.borderColor = "rgba(255,255,255,0.09)"; (e.target as HTMLInputElement).style.background = "rgba(255,255,255,0.04)"; }}
+                    />
+                  </div>
+                ))}
               </div>
-            </div>
-          </div>
-          
-          {/* Contact Form */}
-          <div className="animate-slide-up">
-            <div className="portfolio-card">
-              <h3 className="text-2xl font-bold text-foreground mb-6">
-                Send a Message
-              </h3>
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <input type="text" name="botcheck" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label htmlFor="name" className="text-sm font-medium text-foreground">
-                      Name *
-                    </label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="Your full name"
-                      required
-                      className="focus:ring-accent focus:border-accent"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-sm font-medium text-foreground">
-                      Email *
-                    </label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="your.email@example.com"
-                      required
-                      className="focus:ring-accent focus:border-accent"
-                    />
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <label htmlFor="subject" className="text-sm font-medium text-foreground">
-                    Subject *
-                  </label>
-                  <Input
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    placeholder="What's this about?"
-                    required
-                    className="focus:ring-accent focus:border-accent"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <label htmlFor="message" className="text-sm font-medium text-foreground">
-                    Message *
-                  </label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    placeholder="Tell me about your project or opportunity..."
-                    rows={6}
-                    required
-                    className="focus:ring-accent focus:border-accent resize-none"
-                  />
-                </div>
-                
-                <Button type="submit" className="btn-hero w-full" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4 mr-2" />
-                      Send Message
-                    </>
-                  )}
-                </Button>
-                <p className="text-sm text-muted-foreground" aria-live="polite">
-                  {statusMessage}
-                </p>
-              </form>
-            </div>
-          </div>
-        </div>
-        
-        {/* Map Section */}
-        <div className="mt-16">
-          <div className="portfolio-card overflow-hidden">
-            <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-              My Location in Hamburg
-            </h3>
-            <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-              <div className="text-center space-y-4">
-                <MapPin className="w-16 h-16 text-accent mx-auto" />
-                <div>
-                  <p className="text-lg font-semibold text-foreground">Hamburg, Germany</p>
-                  <p className="text-muted-foreground">Michgrund 47, 21075</p>
-                </div>
-                <Button 
-                  variant="outline"
-                  onClick={() => window.open('https://maps.google.com?q=Milchgrund+47,+21075,+Hamburg,+DE', '_blank')}
+
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="subject" className="font-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: "rgba(255,255,255,0.28)" }}>
+                  Subject *
+                </label>
+                <input
+                  id="subject" name="subject" type="text"
+                  value={form.subject} onChange={onChange}
+                  placeholder="What's this about?" required
+                  style={inputStyle}
+                  onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = "#2563EB"; (e.target as HTMLInputElement).style.background = "rgba(37,99,235,0.05)"; }}
+                  onBlur={(e)  => { (e.target as HTMLInputElement).style.borderColor = "rgba(255,255,255,0.09)"; (e.target as HTMLInputElement).style.background = "rgba(255,255,255,0.04)"; }}
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="message" className="font-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: "rgba(255,255,255,0.28)" }}>
+                  Message *
+                </label>
+                <textarea
+                  id="message" name="message"
+                  value={form.message} onChange={onChange}
+                  placeholder="Tell me about your project or opportunity..."
+                  rows={5} required
+                  style={{ ...inputStyle, resize: "none", lineHeight: 1.65 }}
+                  onFocus={(e) => { (e.target as HTMLTextAreaElement).style.borderColor = "#2563EB"; (e.target as HTMLTextAreaElement).style.background = "rgba(37,99,235,0.05)"; }}
+                  onBlur={(e)  => { (e.target as HTMLTextAreaElement).style.borderColor = "rgba(255,255,255,0.09)"; (e.target as HTMLTextAreaElement).style.background = "rgba(255,255,255,0.04)"; }}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={sending}
+                className="flex items-center justify-center gap-2 py-4 px-8 font-semibold text-sm text-white rounded transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                style={{ background: "#2563EB" }}
+                onMouseEnter={(e) => { if (!sending) (e.currentTarget as HTMLElement).style.background = "#1d4ed8"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "#2563EB"; }}
+              >
+                {sending ? (
+                  <><Loader2 className="w-4 h-4 animate-spin" /> Sending…</>
+                ) : (
+                  <><Send className="w-4 h-4" /> Send Message</>
+                )}
+              </button>
+
+              {status && (
+                <p
+                  className="text-sm text-center"
+                  style={{ color: status.ok ? "#4ade80" : "#f87171" }}
                 >
-                  <MapPin className="w-4 h-4 mr-2" />
-                  View on Google Maps
-                </Button>
-              </div>
-            </div>
+                  {status.msg}
+                </p>
+              )}
+            </form>
           </div>
         </div>
       </div>
