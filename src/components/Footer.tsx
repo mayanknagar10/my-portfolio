@@ -1,45 +1,54 @@
-import { Github, Linkedin, Mail, Heart } from "lucide-react";
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-  const socialLinks = [{
-    icon: Github,
-    href: "https://github.com/mayanknagar10",
-    label: "GitHub"
-  }, {
-    icon: Linkedin,
-    href: "https://www.linkedin.com/in/mayank-nagar10/",
-    label: "LinkedIn"
-  }, {
-    icon: Mail,
-    href: "mailto:nmayank.790@gmail.com",
-    label: "Email"
-  }];
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
-  return <footer className="bg-primary text-primary-foreground">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
+  const year = new Date().getFullYear();
 
-        <div className="border-t border-primary-foreground/20 mt-8 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-primary-foreground/60 text-sm">
-              © {currentYear} Mayank Nagar. All rights reserved.
-            </p>
-            
-            <div className="text-primary-foreground/60 text-sm">
-              Made within Hamburg
-            </div>
-            
-            <button onClick={scrollToTop} className="text-primary-foreground/60 hover:text-accent transition-colors duration-300 text-sm">
-              Back to Top ↑
-            </button>
-          </div>
+  return (
+    <footer
+      className="px-8 py-11"
+      style={{
+        background:   "#060606",
+        borderTop:    "1px solid rgba(255,255,255,0.05)",
+      }}
+    >
+      <div
+        className="max-w-[1240px] mx-auto flex flex-wrap items-center justify-between gap-5"
+      >
+        {/* Logo */}
+        <span
+          className="font-heading font-bold text-lg text-white"
+          style={{ letterSpacing: "-0.025em" }}
+        >
+          Mayank<span style={{ color: "#2563EB" }}>.</span>
+        </span>
+
+        {/* Copyright */}
+        <p className="text-sm" style={{ color: "rgba(255,255,255,0.2)" }}>
+          © {year} Mayank Nagar · Crafted with precision in Hamburg
+        </p>
+
+        {/* Links */}
+        <div className="flex gap-6">
+          {[
+            { label: "LinkedIn", href: "https://www.linkedin.com/in/mayank-nagar10/" },
+            { label: "GitHub",   href: "https://github.com/mayanknagar10" },
+            { label: "Email",    href: "mailto:nmayank.790@gmail.com" },
+          ].map(({ label, href }) => (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith("mailto") ? undefined : "_blank"}
+              rel="noopener noreferrer"
+              className="text-sm transition-colors duration-200"
+              style={{ color: "rgba(255,255,255,0.28)" }}
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#fff")}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "rgba(255,255,255,0.28)")}
+            >
+              {label}
+            </a>
+          ))}
         </div>
       </div>
-    </footer>;
+    </footer>
+  );
 };
+
 export default Footer;
