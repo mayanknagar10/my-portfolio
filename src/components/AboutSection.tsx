@@ -97,9 +97,11 @@ const AboutSection = () => {
             style={{ color: "var(--c-body)" }}
           >
             Previously at Cognizant Technology Solutions, I architected Azure-based
-            pipelines serving enterprise clients. Now at Harbour Energy, I apply deep
-            learning to geoscience challenges while pursuing advanced research in AI
-            and optimization.
+            pipelines serving enterprise clients, and later applied deep learning to
+            geoscience challenges as a Data Science Intern at Harbour Energy. I'm now
+            completing my Master Thesis at Helmholtz Centre Hereon, developing
+            diffusion-model architectures for microstructure reconstruction in
+            materials science.
           </p>
 
           {/* Education cards */}

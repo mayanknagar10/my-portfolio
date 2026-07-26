@@ -1,9 +1,9 @@
 const SKILLS = [
   "Python", "PyTorch", "Scikit-Learn", "PySpark", "Azure Data Factory",
-  "SQL", "Tableau", "Power BI", "TensorFlow", "Keras", "Pandas", "NumPy",
-  "Deep Learning", "ETL Pipelines", "Docker", "Linux", "Git", "R",
-  "Neural Networks", "Computer Vision", "NLP", "Time Series Analysis",
-  "CycleGAN", "Graph Neural Networks", "IBM Cognos", "Microsoft Azure", "SSMS",
+  "SQL", "Tableau", "Power BI", "LangGraph", "LangChain", "RAG", "ChromaDB",
+  "Deep Learning", "ETL Pipelines", "Docker", "Linux", "Git",
+  "Diffusion Models", "Computer Vision", "MCP", "Time-Series Forecasting",
+  "CycleGAN", "HuggingFace Transformers", "Kafka", "Microsoft Azure", "Prompt Engineering",
 ];
 
 const SkillsTicker = () => (

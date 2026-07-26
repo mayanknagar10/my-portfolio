@@ -1,6 +1,6 @@
 const STATS = [
   { num: "2",    sup: "+",  label: "Years of professional data engineering & analytics experience" },
-  { num: "3",    sup: "",   label: "Major projects across industry, research & academia" },
+  { num: "3",    sup: "",   label: "Major projects across generative AI, research & academia" },
   { num: "15",   sup: "+",  label: "Technologies across the full data lifecycle" },
   { num: "M.Sc", sup: ".",  label: "Data Science · Hamburg University of Technology (TUHH)" },
 ];

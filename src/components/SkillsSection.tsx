@@ -1,25 +1,25 @@
-import { Monitor, Brain, Database, Code2 } from "lucide-react";
+import { Brain, Database, Code2, Sparkles } from "lucide-react";
 
 const CATEGORIES = [
   {
-    name: "Data Analytics & Visualization",
-    icon: <Monitor className="w-[18px] h-[18px]" />,
-    tags: ["Data Analysis", "Tableau", "Power BI", "Data Wrangling", "Matplotlib", "Seaborn"],
-  },
-  {
     name: "Programming & Machine Learning",
     icon: <Brain className="w-[18px] h-[18px]" />,
-    tags: ["Python", "R", "SQL", "PyTorch", "Scikit-Learn", "PySpark", "TensorFlow", "Keras"],
+    tags: ["Python", "SQL", "PyTorch", "Scikit-Learn", "PySpark", "Time-Series Forecasting", "Deep Learning", "Model Evaluation"],
+  },
+  {
+    name: "LLM & Agentic AI",
+    icon: <Sparkles className="w-[18px] h-[18px]" />,
+    tags: ["LangGraph", "LangChain", "HuggingFace Transformers", "RAG", "ChromaDB", "MCP", "Prompt Engineering", "LLM Tool Calling"],
   },
   {
     name: "Data Engineering & ETL",
     icon: <Database className="w-[18px] h-[18px]" />,
-    tags: ["ETL Pipelines", "Azure Data Factory", "Data Migration", "SQL Server", "Azure Storage", "IBM Cognos"],
+    tags: ["ETL", "Azure Data Factory", "Azure Storage", "SQL Server", "Kafka", "Workflow Optimization"],
   },
   {
-    name: "Tools & Platforms",
+    name: "Tools & Analytics",
     icon: <Code2 className="w-[18px] h-[18px]" />,
-    tags: ["Microsoft Azure", "Git", "Docker", "Jupyter", "VS Code", "Linux", "SSMS", "Pandas · NumPy"],
+    tags: ["Docker", "Git", "Linux", "Microsoft Azure", "Microservices", "Tableau", "Power BI", "Excel", "Dashboards"],
   },
 ];
 
