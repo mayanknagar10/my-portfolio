@@ -1,42 +1,42 @@
+import { motion, useReducedMotion } from "motion/react";
+
 const STATS = [
-  { num: "2",    sup: "+",  label: "Years of professional data engineering & analytics experience" },
-  { num: "3",    sup: "",   label: "Major projects across generative AI, research & academia" },
-  { num: "15",   sup: "+",  label: "Technologies across the full data lifecycle" },
-  { num: "M.Sc", sup: ".",  label: "Data Science · Hamburg University of Technology (TUHH)" },
+  { num: "14.4%", label: "WAPE on demand forecasting", note: "Forecast quality" },
+  { num: "260×", label: "image compression in generative RVE research", note: "Representation" },
+  { num: "10k+", label: "pull requests collected for graph learning", note: "Dataset scale" },
+  { num: "30%", label: "lower migration latency in data engineering", note: "Production impact" },
 ];
 
-const StatsSection = () => (
-  <section
-    style={{ background: "var(--c-bg-surface)", borderBottom: "1px solid var(--c-border)" }}
-  >
-    <div className="max-w-[1240px] mx-auto grid grid-cols-2 lg:grid-cols-4">
-      {STATS.map((s, i) => (
-        <div
-          key={i}
-          className="reveal px-8 py-12 lg:px-10 lg:py-14"
-          style={{
-            borderRight:  i % 2 === 0 ? "1px solid var(--c-border)" : "none",
-            borderBottom: i < 2       ? "1px solid var(--c-border)" : "none",
-            transitionDelay: `${i * 0.1}s`,
-          }}
-        >
-          <div
-            className="font-mono font-bold leading-none mb-2"
-            style={{ fontSize: 48, letterSpacing: "-0.04em", color: "var(--c-heading)" }}
-          >
-            {s.num}
-            <span style={{ color: "var(--c-accent)" }}>{s.sup}</span>
-          </div>
-          <p
-            className="text-sm leading-snug"
-            style={{ color: "var(--c-muted)", maxWidth: 180 }}
-          >
-            {s.label}
-          </p>
+const StatsSection = () => {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <section className="soft-section px-5 py-10 sm:px-8 sm:py-12">
+      <div className="mx-auto max-w-[1240px]">
+        <div className="mb-5 flex items-end justify-between gap-5">
+          <p className="soft-kicker">A few outcomes from the work</p>
+          <span className="soft-rule" aria-hidden="true" />
         </div>
-      ))}
-    </div>
-  </section>
-);
+
+        <div className="outcomes-grid">
+          {STATS.map((stat, index) => (
+            <motion.article
+              key={stat.num}
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ duration: 0.58, delay: index * 0.045, ease: [0.22, 1, 0.36, 1] }}
+              className="outcome-card"
+            >
+              <p className="outcome-note">{stat.note}</p>
+              <p className="outcome-value">{stat.num}</p>
+              <p className="outcome-label">{stat.label}</p>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export default StatsSection;

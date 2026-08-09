@@ -1,161 +1,106 @@
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useSpring } from "motion/react";
+
 const EXPERIENCES = [
   {
-    period:  ["04/2026", "Present"],
-    badge:   "Current",
-    current: true,
+    period: "04/2026 — Present",
+    badge: "Current",
     company: "Helmholtz Centre Hereon GmbH",
-    role:    "Master Thesis · Geesthacht, Germany",
+    role: "Master Thesis · Geesthacht, Germany",
     bullets: [
-      "Developing ViTFMDiT and ViTDiT architectures for microstructure reconstruction using diffusion models, flow-matching techniques, and PyTorch-based deep learning workflows",
-      "Building training, validation, checkpointing, and inference pipelines for GPU-accelerated generative vision models, with focus on reproducible experimentation and model evaluation",
-      "Designing latent conditioning and bottleneck mechanisms to reconstruct microstructure images from compact semantic representations",
-      "Implementing reconstruction losses for RGB fidelity, grain-orientation consistency, and boundary preservation, while monitoring stability and reconstruction quality",
+      "Developing ViTFMDiT and ViTDiT architectures for microstructure reconstruction using diffusion models, flow-matching techniques, and PyTorch workflows.",
+      "Building reproducible training, validation, checkpointing, and inference pipelines for GPU-accelerated generative vision models.",
+      "Designing latent conditioning, bottleneck mechanisms, and reconstruction losses for fidelity, grain orientation, and boundary preservation.",
     ],
+    tools: ["PyTorch", "Diffusion Models", "Flow Matching", "Computer Vision"],
   },
   {
-    period:  ["04/2025", "09/2025"],
-    badge:   "6 Months",
-    current: false,
+    period: "04/2025 — 09/2025",
+    badge: "6 months",
     company: "Harbour Energy",
-    role:    "Data Science Intern · Barnstorf, Germany",
+    role: "Data Science Intern · Barnstorf, Germany",
     bullets: [
-      "Designed ML pipeline with CycleGAN, FFT, and interpolation to upscale 64³ micro-CT scans to 1024³ resolution for geological analysis",
-      "Enhanced image-processing tools and ML models for 3D super-resolution, supporting downstream simulation and analytical workflows",
-      "Automated segmentation, porosity analysis, and model-training workflows, reducing manual intervention for accurate pore-grain measurements",
+      "Designed an ML pipeline with CycleGAN, FFT, and interpolation to upscale 64³ micro-CT scans to 1024³ resolution.",
+      "Enhanced image-processing and 3D super-resolution workflows for downstream simulation and analysis.",
+      "Automated segmentation, porosity analysis, and training workflows to reduce manual intervention.",
     ],
+    tools: ["CycleGAN", "FFT", "3D Imaging", "Automation"],
   },
   {
-    period:  ["01/2022", "08/2024"],
-    badge:   "2.5 Years",
-    current: false,
+    period: "01/2022 — 08/2024",
+    badge: "2.5 years",
     company: "Cognizant Technology Solutions",
-    role:    "Programmer Analyst — Data Engineering · Pune, India",
+    role: "Programmer Analyst — Data Engineering · Pune, India",
     bullets: [
-      "Engineered ETL pipelines using Azure Data Factory, Azure Storage, SQL Server, and PySpark, reducing data migration latency by 30%",
-      "Developed and optimized automated data processing workflows, improving processing efficiency by 25% and supporting data quality checks",
-      "Built reports, dashboards, and visualizations using SQL, PySpark, and IBM Cognos Analytics to support stakeholder decision-making",
-      "Collaborated with cross-functional teams and maintained technical documentation, reducing turnaround time by 20% and onboarding time by 15%",
+      "Engineered ETL pipelines with Azure Data Factory, Azure Storage, SQL Server, and PySpark, reducing data migration latency by 30%.",
+      "Optimized automated data-processing workflows, improving processing efficiency by 25% and supporting data-quality checks.",
+      "Built reports and dashboards with SQL, PySpark, and IBM Cognos Analytics for stakeholder decision-making.",
     ],
+    tools: ["Azure Data Factory", "PySpark", "SQL Server", "ETL"],
   },
 ];
 
-const ExperienceSection = () => (
-  <section
-    id="experience"
-    className="px-8 py-24"
-    style={{ background: "#141416" }}
-  >
-    <div className="max-w-[1240px] mx-auto">
-      {/* Header */}
-      <p
-        className="reveal font-mono text-[11px] uppercase tracking-[0.16em] mb-4"
-        style={{ color: "#60a5fa" }}
-      >
-        Work History
-      </p>
-      <h2
-        className="reveal font-heading font-bold leading-none mb-5"
-        style={{
-          fontSize: "clamp(36px, 5vw, 60px)",
-          letterSpacing: "-0.03em",
-          color: "#FFFFFF",
-          transitionDelay: "0.05s",
-        }}
-      >
-        Professional Experience
-      </h2>
-      <p
-        className="reveal text-base mb-16 max-w-[520px] leading-relaxed"
-        style={{ color: "rgba(255,255,255,0.4)", transitionDelay: "0.1s" }}
-      >
-        Building data infrastructure and intelligent solutions across energy, consulting, and academia.
-      </p>
+const ExperienceSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 0.72", "end 0.72"],
+  });
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 55, damping: 24, mass: 0.65 });
 
-      {/* Timeline list */}
-      <div>
-        {EXPERIENCES.map((exp, i) => (
-          <div
-            key={i}
-            className="reveal grid grid-cols-1 md:grid-cols-[180px_1fr] py-12"
-            style={{
-              gap: "3.5rem",
-              borderBottom: i < EXPERIENCES.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
-              transitionDelay: `${0.15 + i * 0.1}s`,
-            }}
-          >
-            {/* Left: period */}
-            <div className="pt-1">
-              <p
-                className="font-mono text-xs leading-relaxed"
-                style={{ color: "rgba(255,255,255,0.28)", letterSpacing: "0.05em" }}
+  return (
+    <section ref={sectionRef} id="experience" className="soft-section px-5 py-24 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-[1240px]">
+        <div className="section-intro mb-14 max-w-[760px]">
+          <p className="soft-kicker">Experience</p>
+          <h2 className="soft-title">From enterprise data pipelines to generative research.</h2>
+          <p className="soft-lead mt-5 max-w-[650px]">
+            The tools changed, but the pattern stayed similar: understand the data, build the workflow carefully, measure what improved, and make the result usable.
+          </p>
+        </div>
+
+        <div className="relative">
+          <div className="timeline-track hidden md:block" />
+          {!reduceMotion && <motion.div className="timeline-progress hidden md:block" style={{ scaleY: smoothProgress }} />}
+
+          <div className="space-y-4 md:pl-12">
+            {EXPERIENCES.map((exp, index) => (
+              <motion.article
+                key={exp.company}
+                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.18 }}
+                transition={{ duration: 0.66, delay: index * 0.045, ease: [0.22, 1, 0.36, 1] }}
+                className="experience-card relative"
               >
-                {exp.period[0]}
-                <br />
-                {exp.period[1]}
-              </p>
-              <span
-                className="inline-block mt-3 w-2 h-2 rounded-full"
-                style={{
-                  background: "#2563EB",
-                  boxShadow: "0 0 0 4px rgba(37,99,235,0.18)",
-                }}
-              />
-            </div>
+                <span className="timeline-node hidden md:block" aria-hidden="true" />
+                <div className="grid gap-7 lg:grid-cols-[220px_1fr] lg:gap-12">
+                  <div>
+                    <p className="experience-period">{exp.period}</p>
+                    <span className="experience-badge">{exp.badge}</span>
+                  </div>
 
-            {/* Right: content */}
-            <div>
-              <span
-                className="inline-block mb-3 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] rounded-sm"
-                style={
-                  exp.current
-                    ? {
-                        background: "rgba(37,99,235,0.14)",
-                        color: "#93c5fd",
-                        border: "1px solid rgba(37,99,235,0.28)",
-                      }
-                    : {
-                        background: "rgba(255,255,255,0.05)",
-                        color: "rgba(255,255,255,0.3)",
-                        border: "1px solid rgba(255,255,255,0.08)",
-                      }
-                }
-              >
-                {exp.badge}
-              </span>
-
-              <h3
-                className="font-heading font-bold mb-1"
-                style={{ fontSize: 24, letterSpacing: "-0.025em", color: "#FFFFFF" }}
-              >
-                {exp.company}
-              </h3>
-              <p className="text-sm mb-5" style={{ color: "rgba(255,255,255,0.4)" }}>
-                {exp.role}
-              </p>
-
-              <ul className="flex flex-col gap-2.5">
-                {exp.bullets.map((b, j) => (
-                  <li
-                    key={j}
-                    className="text-sm leading-relaxed pl-5 relative"
-                    style={{ color: "rgba(255,255,255,0.55)" }}
-                  >
-                    <span
-                      className="absolute left-0 font-mono text-xs"
-                      style={{ color: "#2563EB", top: 1 }}
-                    >
-                      —
-                    </span>
-                    {b}
-                  </li>
-                ))}
-              </ul>
-            </div>
+                  <div>
+                    <h3 className="experience-company">{exp.company}</h3>
+                    <p className="experience-role">{exp.role}</p>
+                    <ul className="mt-6 space-y-3">
+                      {exp.bullets.map((bullet) => (
+                        <li key={bullet} className="experience-bullet">{bullet}</li>
+                      ))}
+                    </ul>
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {exp.tools.map((tool) => <span key={tool} className="tech-chip-soft">{tool}</span>)}
+                    </div>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default ExperienceSection;

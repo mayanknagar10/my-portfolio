@@ -1,46 +1,27 @@
-import { Sun, Moon } from "lucide-react";
-import { useTheme }  from "@/components/theme-provider";
+import { motion } from "motion/react";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "@/components/theme-provider";
 
 const ModeToggle = () => {
   const { theme, setTheme } = useTheme();
   const isDark = theme === "dark";
 
-  const toggle = () => setTheme(isDark ? "light" : "dark");
-
   return (
     <button
-      onClick={toggle}
-      aria-label="Toggle colour scheme"
-      className="relative w-9 h-9 flex items-center justify-center rounded-full transition-all duration-200 flex-shrink-0"
-      style={{
-        border: "1px solid rgba(255,255,255,0.13)",
-        color:  "rgba(255,255,255,0.45)",
-      }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor = "#3b82f6";
-        (e.currentTarget as HTMLElement).style.color       = "#3b82f6";
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.13)";
-        (e.currentTarget as HTMLElement).style.color       = "rgba(255,255,255,0.45)";
-      }}
+      type="button"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className="theme-toggle"
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      title={isDark ? "Light mode" : "Dark mode"}
     >
-      {/* Sun — visible in dark mode, click → go light */}
-      <Sun
-        className="w-[15px] h-[15px] absolute transition-all duration-300"
-        style={{
-          opacity:   isDark ? 1 : 0,
-          transform: isDark ? "rotate(0deg) scale(1)" : "rotate(90deg) scale(0)",
-        }}
-      />
-      {/* Moon — visible in light mode, click → go dark */}
-      <Moon
-        className="w-[15px] h-[15px] absolute transition-all duration-300"
-        style={{
-          opacity:   isDark ? 0 : 1,
-          transform: isDark ? "rotate(-90deg) scale(0)" : "rotate(0deg) scale(1)",
-        }}
-      />
+      <motion.span
+        key={isDark ? "sun" : "moon"}
+        initial={{ opacity: 0, rotate: -18, scale: 0.8 }}
+        animate={{ opacity: 1, rotate: 0, scale: 1 }}
+        transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+      </motion.span>
     </button>
   );
 };

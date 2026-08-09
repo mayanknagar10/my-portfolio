@@ -1,123 +1,78 @@
-import { Brain, Database, Code2, Sparkles } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
+import { BrainCircuit, Braces, Database, Workflow } from "lucide-react";
 
-const CATEGORIES = [
+const CAPABILITIES = [
   {
-    name: "Programming & Machine Learning",
-    icon: <Brain className="w-[18px] h-[18px]" />,
-    tags: ["Python", "SQL", "PyTorch", "Scikit-Learn", "PySpark", "Time-Series Forecasting", "Deep Learning", "Model Evaluation"],
+    title: "Build the data layer",
+    text: "I’m strongest when the model is not separated from the system feeding it: ingestion, transformation, storage, validation, and repeatable workflows.",
+    icon: Database,
+    skills: ["SQL", "PySpark", "ETL", "Azure Data Factory", "Azure Storage", "Kafka", "SQL Server"],
   },
   {
-    name: "LLM & Agentic AI",
-    icon: <Sparkles className="w-[18px] h-[18px]" />,
-    tags: ["LangGraph", "LangChain", "HuggingFace Transformers", "RAG", "ChromaDB", "MCP", "Prompt Engineering", "LLM Tool Calling"],
+    title: "Model the signal",
+    text: "Classical ML, forecasting, deep learning, and vision — with evaluation designed into the workflow instead of added at the end.",
+    icon: BrainCircuit,
+    skills: ["Python", "PyTorch", "Scikit-Learn", "Time-Series Forecasting", "Deep Learning", "Computer Vision", "Model Evaluation"],
   },
   {
-    name: "Data Engineering & ETL",
-    icon: <Database className="w-[18px] h-[18px]" />,
-    tags: ["ETL", "Azure Data Factory", "Azure Storage", "SQL Server", "Kafka", "Workflow Optimization"],
+    title: "Add reasoning carefully",
+    text: "LLMs are most useful when they sit on top of deterministic tools, retrieval, and explicit interfaces rather than pretending to be the source of truth.",
+    icon: Workflow,
+    skills: ["LangGraph", "LangChain", "RAG", "ChromaDB", "MCP", "HuggingFace Transformers", "LLM Tool Calling"],
   },
   {
-    name: "Tools & Analytics",
-    icon: <Code2 className="w-[18px] h-[18px]" />,
-    tags: ["Docker", "Git", "Linux", "Microsoft Azure", "Microservices", "Tableau", "Power BI", "Excel", "Dashboards"],
+    title: "Ship and explain",
+    text: "The work is only useful when people can run it, inspect it, and understand the result — from containers and version control to analytics and dashboards.",
+    icon: Braces,
+    skills: ["Docker", "Git", "Linux", "Microsoft Azure", "Tableau", "Power BI", "Excel", "Dashboards"],
   },
 ];
 
-const SkillsSection = () => (
-  <section
-    id="skills"
-    className="px-8 py-24"
-    style={{ background: "var(--c-bg-surface)" }}
-  >
-    <div className="max-w-[1240px] mx-auto">
-      <p
-        className="reveal font-mono text-[11px] uppercase tracking-[0.16em] mb-4"
-        style={{ color: "var(--c-accent)" }}
-      >
-        Technical Proficiency
-      </p>
-      <h2
-        className="reveal font-heading font-bold leading-none mb-5"
-        style={{
-          fontSize: "clamp(36px, 5vw, 60px)",
-          letterSpacing: "-0.03em",
-          color: "var(--c-heading)",
-          transitionDelay: "0.05s",
-        }}
-      >
-        Skills & Stack
-      </h2>
-      <p
-        className="reveal text-base mb-16 max-w-[520px] leading-relaxed"
-        style={{ color: "var(--c-lead)", transitionDelay: "0.1s" }}
-      >
-        Full-lifecycle data expertise — from raw ingestion to deployed intelligence.
-      </p>
+const SkillsSection = () => {
+  const reduceMotion = useReducedMotion();
 
-      {/* 2×2 grid */}
-      <div
-        className="reveal grid grid-cols-1 md:grid-cols-2 gap-px rounded-sm overflow-hidden"
-        style={{
-          background: "var(--c-border)",
-          border: "1px solid var(--c-border)",
-          transitionDelay: "0.15s",
-        }}
-      >
-        {CATEGORIES.map((cat) => (
-          <div
-            key={cat.name}
-            className="p-9 transition-colors duration-200"
-            style={{ background: "var(--c-card)" }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.background = "var(--c-card-hover)")
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.background = "var(--c-card)")
-            }
-          >
-            {/* Header */}
-            <div className="flex items-center gap-3 mb-5">
-              <div
-                className="w-9 h-9 rounded flex items-center justify-center flex-shrink-0"
-                style={{ background: "var(--c-accent-lt)", color: "var(--c-accent)" }}
-              >
-                {cat.icon}
-              </div>
-              <span
-                className="font-heading font-semibold text-sm"
-                style={{ color: "var(--c-heading)", letterSpacing: "-0.01em" }}
-              >
-                {cat.name}
-              </span>
-            </div>
-
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2">
-              {cat.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1.5 text-xs font-medium rounded-sm cursor-default transition-all duration-200"
-                  style={{ border: "1px solid var(--c-border)", color: "var(--c-muted)" }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.borderColor = "var(--c-accent)";
-                    (e.currentTarget as HTMLElement).style.color       = "var(--c-accent)";
-                    (e.currentTarget as HTMLElement).style.background  = "var(--c-accent-lt)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.borderColor = "var(--c-border)";
-                    (e.currentTarget as HTMLElement).style.color       = "var(--c-muted)";
-                    (e.currentTarget as HTMLElement).style.background  = "transparent";
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+  return (
+    <section id="skills" className="soft-section px-5 py-24 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-[1240px]">
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <div className="section-intro lg:sticky lg:top-28 lg:self-start">
+            <p className="soft-kicker">What I work with</p>
+            <h2 className="soft-title">A stack organized by what it helps me do.</h2>
+            <p className="soft-lead mt-5 max-w-[520px]">
+              Instead of a wall of logos: reliable data, useful models, careful reasoning, and enough engineering to make the result usable by someone else.
+            </p>
           </div>
-        ))}
+
+          <div className="capability-list">
+            {CAPABILITIES.map((capability, index) => {
+              const Icon = capability.icon;
+              return (
+                <motion.article
+                  key={capability.title}
+                  initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.62, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
+                  className="capability-row"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="capability-icon"><Icon className="h-4 w-4" /></div>
+                    <h3 className="capability-title">{capability.title}</h3>
+                  </div>
+
+                  <p className="capability-copy">{capability.text}</p>
+
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {capability.skills.map((skill) => <span key={skill} className="tech-chip-soft">{skill}</span>)}
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default SkillsSection;

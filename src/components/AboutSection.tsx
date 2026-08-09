@@ -1,165 +1,102 @@
-import { useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { Download, GraduationCap, MapPin, Sparkles } from "lucide-react";
 import mayankProfile from "@/assets/profile-pic.png";
-import { Download } from "lucide-react";
 
 const EDUCATION = [
   {
     degree: "M.Sc. in Data Science",
     school: "Hamburg University of Technology (TUHH)",
-    period: "10/2024 – Present",
-    place:  "Hamburg, Germany",
-    color:  "var(--c-accent)",
+    period: "10/2024 — Present",
+    place: "Hamburg, Germany",
   },
   {
     degree: "B.Tech. in Computer Science & Engineering",
     school: "Dr. Babasaheb Ambedkar Technological University",
-    period: "08/2018 – 07/2022",
-    place:  "Lonere, India",
-    color:  "#7c3aed",
+    period: "08/2018 — 07/2022",
+    place: "Lonere, India",
   },
 ];
 
+const PROFILE_CHIPS = [
+  { icon: MapPin, text: "Hamburg, Germany" },
+  { icon: GraduationCap, text: "M.Sc. Data Science" },
+  { icon: Sparkles, text: "Data · ML · Agentic AI" },
+];
+
 const AboutSection = () => {
-  const [imgError, setImgError] = useState(false);
-  const openResume = () =>
-    window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank");
+  const reduceMotion = useReducedMotion();
+  const openResume = () => window.open(`${import.meta.env.BASE_URL}resume.pdf`, "_blank");
 
   return (
-    <section
-      id="about"
-      className="px-8 py-24"
-      style={{ background: "var(--c-bg-base)" }}
-    >
-      <div className="max-w-[1240px] mx-auto grid gap-12 lg:gap-20 items-start grid-cols-1 lg:grid-cols-[420px_1fr]">
-
-        {/* ── Portrait ── */}
-        <div className="reveal">
-          {imgError ? (
-            <div
-              className="w-full rounded-sm overflow-hidden flex items-end p-8"
-              style={{
-                aspectRatio: "4/5",
-                background: "linear-gradient(150deg, #141416 0%, #1e1e2e 60%, #0f0f1a 100%)",
-              }}
-            >
-              <span
-                className="font-mono text-xs uppercase tracking-widest"
-                style={{ color: "rgba(255,255,255,0.3)" }}
-              >
-                Mayank Nagar · Data Scientist
-              </span>
-            </div>
-          ) : (
-            <img
-              src={mayankProfile}
-              alt="Mayank Nagar"
-              className="w-full object-cover object-top rounded-sm"
-              style={{ aspectRatio: "4/5" }}
-              onError={() => setImgError(true)}
-            />
-          )}
+    <section id="about" className="soft-section px-5 py-24 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-[1240px]">
+        <div className="section-intro mb-12">
+          <p className="soft-kicker">About me</p>
+          <h2 className="soft-title max-w-[830px]">I like the part where messy data becomes something people can trust and use.</h2>
         </div>
 
-        {/* ── Content ── */}
-        <div className="reveal" style={{ transitionDelay: "0.12s" }}>
-          <p
-            className="font-mono text-[11px] uppercase tracking-[0.16em] mb-4"
-            style={{ color: "var(--c-accent)" }}
+        <div className="grid items-start gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, x: -18 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.22 }}
+            transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}
+            className="profile-card lg:sticky lg:top-28"
           >
-            About Me
-          </p>
+            <div className="profile-photo-wrap">
+              <img src={mayankProfile} alt="Mayank Nagar" className="h-full w-full object-cover object-top" />
+              <div className="profile-photo-shade" />
+            </div>
+            <div className="profile-chip-list">
+              {PROFILE_CHIPS.map(({ icon: Icon, text }) => (
+                <span key={text} className="profile-chip">
+                  <Icon className="h-3.5 w-3.5" /> {text}
+                </span>
+              ))}
+            </div>
+          </motion.div>
 
-          <h2
-            className="font-heading font-bold leading-none mb-6"
-            style={{
-              fontSize: "clamp(36px, 5vw, 60px)",
-              letterSpacing: "-0.03em",
-              color: "var(--c-heading)",
-            }}
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.18 }}
+            transition={{ duration: 0.7, delay: 0.04, ease: [0.22, 1, 0.36, 1] }}
           >
-            Data-Driven
-            <br />
-            by Nature
-          </h2>
+            <div className="grid gap-6 text-[15px] leading-7 text-[var(--p-muted)] md:grid-cols-2">
+              <p>
+                I’m a Data Science M.Sc. student at Hamburg University of Technology with professional experience in data engineering and applied machine learning. I’m most comfortable when a problem crosses boundaries: ingestion, modeling, evaluation, and the interface people finally use.
+              </p>
+              <p>
+                My recent work has moved from Azure-based enterprise pipelines to 3D imaging, generative materials research, forecasting, retrieval, and tool-using AI systems. The common thread is reproducibility and evidence — not adding a model where a simpler system would do.
+              </p>
+            </div>
 
-          <p
-            className="text-base leading-relaxed mb-4"
-            style={{ color: "var(--c-body)" }}
-          >
-            I'm a Data Science M.Sc. student at Hamburg University of Technology,
-            combining rigorous academic training with hands-on industry experience.
-            My work spans data engineering, machine learning, and ETL pipeline
-            development — building systems that don't just process data but generate
-            actionable intelligence.
-          </p>
-          <p
-            className="text-base leading-relaxed mb-10"
-            style={{ color: "var(--c-body)" }}
-          >
-            Previously at Cognizant Technology Solutions, I architected Azure-based
-            pipelines serving enterprise clients, and later applied deep learning to
-            geoscience challenges as a Data Science Intern at Harbour Energy. I'm now
-            completing my Master Thesis at Helmholtz Centre Hereon, developing
-            diffusion-model architectures for microstructure reconstruction in
-            materials science.
-          </p>
-
-          {/* Education cards */}
-          <div className="flex flex-col gap-3 mb-8">
-            {EDUCATION.map((edu) => (
-              <div
-                key={edu.degree}
-                className="rounded-sm p-5 transition-shadow duration-200"
-                style={{
-                  background:  "var(--c-card)",
-                  border:      "1px solid var(--c-border)",
-                  borderLeft:  `3px solid ${edu.color}`,
-                }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.boxShadow =
-                    "0 4px 20px rgba(0,0,0,0.08)")
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLElement).style.boxShadow = "none")
-                }
-              >
-                <p
-                  className="font-heading font-semibold mb-1 text-base"
-                  style={{ color: "var(--c-heading)", letterSpacing: "-0.01em" }}
+            <div className="education-list mt-10">
+              {EDUCATION.map((edu, index) => (
+                <motion.div
+                  key={edu.degree}
+                  initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.45 }}
+                  transition={{ duration: 0.5, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                  className="education-row"
                 >
-                  {edu.degree}
-                </p>
-                <p className="text-sm font-medium mb-2" style={{ color: edu.color }}>
-                  {edu.school}
-                </p>
-                <div
-                  className="flex gap-4 font-mono text-[11px]"
-                  style={{ color: "var(--c-muted-lt)", letterSpacing: "0.04em" }}
-                >
-                  <span>{edu.period}</span>
-                  <span>{edu.place}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+                  <div>
+                    <h3 className="education-title">{edu.degree}</h3>
+                    <p className="education-school">{edu.school}</p>
+                  </div>
+                  <div className="education-meta md:text-right">
+                    <p>{edu.period}</p>
+                    <p>{edu.place}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
 
-          {/* Download CV */}
-          <button
-            onClick={openResume}
-            className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded transition-all duration-200"
-            style={{ border: "1px solid var(--c-accent)", color: "var(--c-accent)" }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "var(--c-accent)";
-              (e.currentTarget as HTMLElement).style.color      = "#fff";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "transparent";
-              (e.currentTarget as HTMLElement).style.color      = "var(--c-accent)";
-            }}
-          >
-            <Download className="w-4 h-4" />
-            Download CV
-          </button>
+            <button onClick={openResume} className="system-outline-btn mt-8">
+              <Download className="h-4 w-4" /> Resume / CV
+            </button>
+          </motion.div>
         </div>
       </div>
     </section>
